@@ -1,0 +1,4 @@
+rootProject.name = 'gradle_multibuild_project'
+include 'sub'
+include 'second_module'
+
