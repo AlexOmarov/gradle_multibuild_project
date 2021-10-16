@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+}
+
+group 'ru.somarov'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+abstract class BuildSrcInternalTask extends DefaultTask {
+    @Input
+    private String internalNickname
+
+    String getInternalNickname() {
+        return internalNickname
+    }
+
+    void setInternalNickname(String internalNickname) {
+        this.internalNickname = internalNickname
+    }
+
+    BuildSrcInternalTask() {
+        internalNickname = 'default'
+    }
+
+    @TaskAction
+    def greet() {
+        println 'Hellof from BuildSrcInternalTask, ' + internalNickname
+    }
+}
+
+// ./gradlew -p buildSrc buildSrcInternalTask
+tasks.register('buildSrcInternalTask',BuildSrcInternalTask) {
+    internalNickname = 'Admin'
+}
