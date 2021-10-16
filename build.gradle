@@ -1,8 +1,11 @@
 import ru.somarov.BuildSrcExternalTask
+import ru.somarov.plugin.BuildSrcExternalPlugin
+import ru.somarov.plugin.BuildSrcExternalPluginExtension
 
 plugins {
     id 'java'
     id 'war'
+    id 'buildSrcExternalPlugin'
 }
 
 group 'ru.somarov'
@@ -42,6 +45,11 @@ jar {
                 "Main-Class": "ru.somarov.Main"
         )
     }
+}
+
+BuildSrcExternalPluginExtension {
+    greeter = "Stranger"
+    message = "Message from the build script"
 }
 
 abstract class RootInternalTask extends DefaultTask {
@@ -86,5 +94,10 @@ tasks.register('rootInternalTask',RootInternalTask) {
 
 task buildSrcExternalTask(type: BuildSrcExternalTask) {
     externalNickname = 'Admin'
+}
+
+BuildSrcExternalPluginExtension {
+    greeter="Admin from plugin"
+    message="Message from custom plugin extension config"
 }
 
