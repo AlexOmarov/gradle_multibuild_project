@@ -1,3 +1,5 @@
+import ru.somarov.BuildSrcExternalTask
+
 plugins {
     id 'java'
     id 'war'
@@ -40,5 +42,49 @@ jar {
                 "Main-Class": "ru.somarov.Main"
         )
     }
+}
+
+abstract class RootInternalTask extends DefaultTask {
+    @Input
+    private String internalNickname
+
+    String getInternalNickname() {
+        return internalNickname
+    }
+
+    void setInternalNickname(String internalNickname) {
+        this.internalNickname = internalNickname
+    }
+
+    RootInternalTask() {
+        internalNickname = 'default'
+    }
+
+    @TaskAction
+    def greet() {
+        println 'Hellof from BuildSrcInternalTask, ' + internalNickname
+    }
+}
+
+task welcome {
+    group 'My awesome category'
+    description 'Test task to show custom task creation'
+    doLast {
+        println 'Welcome!'
+    }
+}
+
+allprojects {
+    tasks.register('rootAllProjectsInternalTask',RootInternalTask) {
+        internalNickname="Root all projects Admin"
+    }
+}
+
+tasks.register('rootInternalTask',RootInternalTask) {
+    internalNickname="Admin"
+}
+
+task buildSrcExternalTask(type: BuildSrcExternalTask) {
+    externalNickname = 'Admin'
 }
 

@@ -18,3 +18,10 @@ tasks {
         kotlinOptions.jvmTarget = "16"
     }
 }
+
+
+// ./gradlew :sub:buildSrcExternalTask
+tasks.create<ru.somarov.BuildSrcExternalTask>("buildSrcExternalTask") {
+    externalNickname = "Kotiln admin"
+    doLast { println("Do last from Kotiln DSL!") }
+}
